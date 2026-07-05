@@ -4,15 +4,12 @@
 
 ## Domain
 
-<!-- What domain did you choose? Why is this knowledge valuable and hard to find through official channels? -->
 The domain is Python programming fundamentals. This knowledge is valuable because beginners often need quick explanations of core Python concepts such as variables, data types, lists, dictionaries, functions, loops, conditionals, file handling, error handling, and object-oriented programming. Rather than searching through long tutorials, users can ask questions and receive answers grounded in a curated collection of Python learning documents.
 
 ---
 
 ## Documents
 
-<!-- List your specific sources: URLs, subreddit names, forum threads, or file descriptions.
-     Aim for at least 10 sources that together cover different subtopics or perspectives within your domain. -->
 
 
 | #| Source                   | Description                                       | URL or location                  |
@@ -32,10 +29,6 @@ The domain is Python programming fundamentals. This knowledge is valuable becaus
 
 ## Chunking Strategy
 
-<!-- How will you split documents into chunks?
-     State your chunk size (in tokens or characters), overlap size, and explain why those
-     numbers fit the structure of your documents.
-     A review-heavy corpus warrants different chunking than a long FAQ. -->
 
 **Chunk size:** Entire document (1 chunk per document)
 
@@ -47,11 +40,6 @@ The domain is Python programming fundamentals. This knowledge is valuable becaus
 
 ## Retrieval Approach
 
-<!-- Which embedding model are you using (e.g., all-MiniLM-L6-v2 via sentence-transformers)?
-     How many chunks will you retrieve per query (top-k)?
-     If you were deploying this for real users and cost wasn't a constraint, what tradeoffs
-     would you weigh in choosing a different embedding model — context length, multilingual
-     support, accuracy on domain-specific text, latency? -->
 
 **Embedding model:** all-MiniLM-L6-v2 (Sentence Transformers)
 
@@ -63,10 +51,6 @@ The domain is Python programming fundamentals. This knowledge is valuable becaus
 
 ## Evaluation Plan
 
-<!-- List your 5 test questions with their expected correct answers.
-     Questions should be specific enough that you can judge whether the system's response
-     is right or wrong. "What are good dining halls?" is too vague.
-     "What do students say about wait times at [dining hall name] during lunch?" is testable. -->
 
 | # | Question                             | Expected answer                                                           |
 |---| ------------------------------------ | --------------------------------------------------------------------------|
@@ -81,9 +65,6 @@ The domain is Python programming fundamentals. This knowledge is valuable becaus
 
 ## Anticipated Challenges
 
-<!-- What could go wrong? Name at least two specific risks with reasoning.
-     Consider: noisy or inconsistent documents, missing source attribution, off-topic
-     retrieval, chunks that split key information across boundaries. -->
 
 1. Retrieval may return related but not exact documents when multiple Python concepts are semantically similar.
 
@@ -93,11 +74,6 @@ The domain is Python programming fundamentals. This knowledge is valuable becaus
 
 ## Architecture
 
-<!-- Draw a diagram of your pipeline showing the five stages:
-     Document Ingestion → Chunking → Embedding + Vector Store → Retrieval → Generation
-     Label each stage with the tool or library you're using.
-     You can use ASCII art, a Mermaid diagram, or embed a sketch as an image.
-     You'll use this diagram as context when prompting AI tools to implement each stage. -->
 
 ---
 
@@ -116,30 +92,10 @@ flowchart TD
 
 ## AI Tool Plan
 
-<!-- For each part of the pipeline below, describe:
-     - Which AI tool you plan to use (Claude, Copilot, ChatGPT, etc.)
-     - What you'll give it as input (which sections of this planning.md, which requirements)
-     - What you expect it to produce
-     - How you'll verify the output matches your spec
+**AI Tool:** ChatGPT
 
-     "I'll use AI to help me code" is not a plan.
-     "I'll give Claude my Chunking Strategy section and ask it to implement chunk_text()
-     with my specified chunk size and overlap" is a plan. -->
+**Purpose:** Generate example test cases for evaluating the retrieval system.
 
-**Milestone 3 — Ingestion and chunking:**
-AI Tool: ChatGPT
-Input: Domain section, Documents section, and Chunking Strategy section from planning.md.
-Expected Output: Python code to load all .txt files from the documents folder and prepare them for embedding. Since the documents are short, each document will be stored as a single chunk with no overlap.
-Verification: Confirm that all 10 documents are loaded successfully and that the document count matches the number of files in the documents folder.
+**Input:** Requests for sample in-domain and out-of-domain questions.
 
-**Milestone 4 — Embedding and retrieval:**
-AI Tool: ChatGPT
-Input: Retrieval Approach section, selected embedding model (all-MiniLM-L6-v2), and retrieval requirements from the project guide.
-Expected Output: Code that generates embeddings using SentenceTransformer, stores them in ChromaDB, and retrieves the top 3 most relevant documents for a query.
-Verification: Test retrieval with questions about variables, lists, dictionaries, and object-oriented programming. Verify that the returned documents are relevant to the query.
-
-**Milestone 5 — Generation and interface:**
-AI Tool: ChatGPT
-Input: Retrieval pipeline design, grounding requirements, and query interface requirements from the project guide.
-Expected Output: Code that sends retrieved context to Groq's Llama 3.3 70B model and displays responses through a Gradio interface.
-Verification: Confirm that in-domain questions return grounded answers and that out-of-scope questions such as "Who won the 2022 FIFA World Cup?" return "I do not know."
+**Expected Output:** Example test questions to verify that the system retrieves relevant Python documents and correctly responds with "I do not know" for questions outside the document collection.
